@@ -11,10 +11,13 @@ const firebaseConfig = {
   };
 firebase.initializeApp(firebaseConfig);
 function adduser() {
-    user_name=document.getElementById("nombre_usuario").value;
+    user_name=document.getElementById("nombre_usuari0").value;
     password_dog=document.getElementById("contrasena").value;
-    firebase.database().ref("/").child(user_name).update({
-        nombre:user_name,
-        pass: password_dog
-    })
+    firebase.database().ref("usuarios").child(user_name).update({
+        nombre: user_name,
+        pass: password_dog,
+        proposito: "añadir usuario"
+    });
+    localStorage.setItem("nombre_usuario", user_name);
+    window.location = "guaf_room.html";
 }
