@@ -25,21 +25,28 @@ const firebaseConfig = {
     localStorage.removeItem("nombre_sala");
     window.location = "index.html";
   }
-  function getData() {firebase.database().ref("/").on('value', function(snapshot) {document.getElementById("output").innerHTML = "";snapshot.forEach(function(childSnapshot) {childKey  = childSnapshot.key; childData=childSnapshot.val(); if(childKey != "purpose"){
-      firebase_message_id=childKey;
-      message_data=childData;
-   //Inicio del código
-   console.log(firebase_message_id);
-   console.log(message_data);
-   nombre=message_data['nombre'];
-   mensaje=message_data['mensaje'];
-   like=message_data['like'];
-   nombre_con_tag="<h4>"+nombre+"<img class='logo' src='logo.png'></h4>";
-   mensaje_con_tag="<h4 class='message_h4'>"+mensaje+"</h4>";
-   like_button="<button class='btn btn-warning' id="+firebase_message_id+" value="+like+" onclick='youtube(this.id)'>";
-   span_with_tag="<span class='glyphicon glyphicon-thumbs-up'>like: "+like+"</span></button><hr>"
-   row =nombre_con_tag+mensaje_con_tag+like_button+span_with_tag;
-   document.getElementById("output").innerHTML+=row;
-   //Final del código
-   }});});}
+  function getData() { firebase.database().ref("/"+room_name).on('value', function(snapshot) { document.getElementById("output").innerHTML = ""; snapshot.forEach(function(childSnapshot) { childKey  = childSnapshot.key; childData = childSnapshot.val(); if(childKey != "purpose") {
+    firebase_message_id = childKey;
+    message_data = childData;
+ //Inicia código
+    console.log(firebase_message_id);
+    console.log(message_data);
+    names = message_data['nombre'];
+    message = message_data['mensaje'];
+    like = message_data['like'];
+    name_with_tag = "<h4> " + names + "<img class='user_tick' src='logo.png'></h4>";
+    message_with_tag = "<h4 class='message_h4'>" + message + "</h4>";
+    like_button ="<button class='btn btn-warning' id="+firebase_message_id+" value="+like+" onclick='updateLike(this.id)'>";
+    span_with_tag = "<span class= 'glyphicon glyphicon-thums-up'>Me gusta: " + like + "</span></button><hr>";
+
+    row = name_with_tag + message_with_tag + like_button + span_with_tag;
+    document.getElementById("output").innerHTML +=row;
+    //Finaliza código
+    function updateLike(message_id){
+      console.log("PERRITOS SON GENIALES PARAMETRO:"+message_id);
+      button_id=message_id;
+      like=document.getElementById(button_id).value;
+      update_like=Number(like+1);
+    }
+ } });  }); }
    getData();
